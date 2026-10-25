@@ -22,11 +22,40 @@ for i in range(1,n+1):
     prefix[i]=prefix[i-1]+nums[i-1]
 
 count=0 # 计数器
-sums=0 
-for r in range(1,n+1):
-    for l in range(r):
-        sums=prefix[r]-prefix[l]
-        if sums % k == 0:
-            count+=1
+
+### o(n*n)
+# sums=0 
+# for r in range(1,n+1):
+#     for l in range(r):
+#         sums=prefix[r]-prefix[l]
+#         if sums % k == 0:
+#             count+=1
+
+seen={0:1}
+for i in range(1,n+1):
+    remainder = prefix[i]%k
+
+    count+=seen.get(remainder,0)
+    seen[remainder]=seen.get(remainder,0)+1
 
 print(count)
+
+
+### 优化版本 去掉前缀和的使用 空间复杂度由o(n)->o(min(n,k))
+# seen = {0: 1}
+# count = 0
+# current_sum = 0
+
+# for x in nums:
+#     # 更新当前累计和
+#     current_sum +=x
+
+#     # 计算当前累计和的余数
+#     remainder = current_sum % k
+#     # 统计满足条件的子数组
+#     count +=  seen.get(remainder, 0)
+#     # 更新字典
+#     seen[remainder] = seen.get(remainder, 0)+1
+# print(count)
+
+
