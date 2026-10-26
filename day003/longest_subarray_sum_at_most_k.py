@@ -19,18 +19,20 @@
 - \(0\le nums[i]\le10^4\)
 """
 
+### 利用滑动窗口求解
 n, k=map(int, input().split())
 nums=list(map(int, input().split()))
 
-prefix=[0]*(n+1)
-for i in range(1, n+1):
-    prefix[i]=prefix[i-1]+nums[i-1]
-
+left=0
+right=0
+current_sum=0
 max_num=0
 
-for r in range(1,n+1):
-    for l in range(r-max_num):
-        if prefix[r]-prefix[l] <= k and r-l>max_num:
-            max_num=r-l
+for right in range(n):
+    current_sum+=nums[right]
+    while current_sum>k:
+        current_sum-=nums[left]
+        left+=1
+    max_num=max(max_num, right-left+1)
 
 print(max_num)
